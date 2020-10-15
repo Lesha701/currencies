@@ -55,8 +55,12 @@ class CurrencyController extends Controller
      */
     public function show(string $code, Request $request): JsonResponse
     {
-        $date = Carbon::createFromFormat('d.m.Y', $request->get('date'));
-        $currency = $this->currencyRepository->getByDateAndCode($date->format('Y-m-d'), $code);
+        $inputDate = $request->get('date', date('d.m.Y'));
+
+        $currency = $this->currencyRepository->getByDateAndCode(
+            Carbon::createFromFormat('d.m.Y', $inputDate)->format('Y-m-d'),
+            $code
+        );
 
         if ($currency === null) {
             return new ErrorResponse('Currency not found', 404);
