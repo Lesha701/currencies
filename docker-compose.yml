@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d/
+    networks:
+      - currency
+
+  api:
+    build:
+      args:
+        user: www
+        uid: 1000
+      context: ./docker
+      dockerfile: php/Dockerfile
+    image: currency-php
+    container_name: api
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - currency
+
+  db:
+    image: mysql:5.7
+    container_name: db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - currency
+
+volumes:
+  dbdata:
+    driver: local
+
+networks:
+  currency:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
