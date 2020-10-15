@@ -42,6 +42,12 @@ php artisan currencies:parse:daily
 
 ### Methods
 
+Все запросы необходимо выполнять с HTTP-заголовком
+
+```
+Authorization: Bearer <token>
+```
+
 Получение курса конкретной валюты на определенную дату
 
 ```
