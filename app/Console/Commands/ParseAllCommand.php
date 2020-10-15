@@ -47,7 +47,7 @@ class ParseAllCommand extends Command
      */
     public function handle(HtmlCurrencyParser $parser)
     {
-        $date = Carbon::createFromFormat('d.m.Y', '15.10.2020');
+        $date = Carbon::createFromFormat('d.m.Y', '01.01.2010');
 
         while (!$date->isCurrentDay()) {
             $this->info('Parse currencies at ' . $date->format('d.m.Y'));
