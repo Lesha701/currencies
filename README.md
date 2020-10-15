@@ -44,25 +44,25 @@ php artisan currencies:parse:daily
 
 Все запросы необходимо выполнять с HTTP-заголовком
 
-```
+```http
 Authorization: Bearer <token>
 ```
 
 Получение курса конкретной валюты на определенную дату
 
-```
+```http
 GET /currency/JPY?date=10.03.2017
 ```
 
 Если не передавать параметр `date`, курс валюты будет на текущую дату
 
-```
+```http
 GET /currency/AUD
 ```
 
 Получение всех курсов валют с пагинацией
 
-```
+```http
 GET /currencies?page=2&per_page=10
 ```
 
